@@ -20,4 +20,10 @@ public class EmployeeController {
 		List<Employee> list = employeeDao.getAllEmployees();
 		return list;
 	}
+	
+	@GetMapping("/get-all-employees-rm")
+	public List<Employee> getAllEmployeesRM() {
+		List<Employee> list = employeeDao.getAllEmployeesRM();
+		return list;
+	}
 }

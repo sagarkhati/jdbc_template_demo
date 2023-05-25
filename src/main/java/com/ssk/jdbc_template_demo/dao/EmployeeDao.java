@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import com.ssk.jdbc_template_demo.model.Employee;
@@ -19,6 +20,7 @@ public class EmployeeDao {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
+	// using query with ResultSetExtractor
 	public List<Employee> getAllEmployees() {
 		String sql = "SELECT * FROM employee";
 
@@ -38,6 +40,25 @@ public class EmployeeDao {
 		};
 
 		List<Employee> list = jdbcTemplate.query(sql, rse);
+
+		return list;
+	}
+	
+	// using query with RowMapper
+	public List<Employee> getAllEmployeesRM() {
+		String sql = "SELECT * FROM employee";
+
+		RowMapper<Employee> rowMapper = new RowMapper<Employee>() {
+
+			@Override
+			public Employee mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Employee employee = new Employee(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
+						rs.getInt(5), rs.getDate(6), rs.getInt(7), rs.getInt(8), rs.getInt(9));
+				return employee;
+			}
+		};
+
+		List<Employee> list = jdbcTemplate.query(sql, rowMapper);
 
 		return list;
 	}
