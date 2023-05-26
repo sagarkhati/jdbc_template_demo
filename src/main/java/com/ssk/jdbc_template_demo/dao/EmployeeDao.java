@@ -1,8 +1,8 @@
 package com.ssk.jdbc_template_demo.dao;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
@@ -125,9 +126,19 @@ public class EmployeeDao {
 //		List<Employee> list = jdbcTemplate.query(sql, rse, dept_id);
 
 //		way2
-		Object[] args = new Object[] { dept_id };
-		int[] argTypes = new int[] { Types.INTEGER };
-		List<Employee> list = jdbcTemplate.query(sql, args, argTypes, rse);
+//		Object[] args = new Object[] { dept_id };
+//		int[] argTypes = new int[] { Types.INTEGER };
+//		List<Employee> list = jdbcTemplate.query(sql, args, argTypes, rse);
+
+//		way3
+		PreparedStatementSetter pss = new PreparedStatementSetter() {
+
+			@Override
+			public void setValues(PreparedStatement ps) throws SQLException {
+				ps.setInt(1, dept_id);
+			}
+		};
+		List<Employee> list = jdbcTemplate.query(sql, pss, rse);
 
 		return list;
 	}
@@ -152,9 +163,19 @@ public class EmployeeDao {
 //		List<Employee> list = jdbcTemplate.query(sql, rowMapper);
 
 //		way2
-		Object[] args = new Object[] { dept_id };
-		int[] argTypes = new int[] { Types.INTEGER };
-		List<Employee> list = jdbcTemplate.query(sql, args, argTypes, rowMapper);
+//		Object[] args = new Object[] { dept_id };
+//		int[] argTypes = new int[] { Types.INTEGER };
+//		List<Employee> list = jdbcTemplate.query(sql, args, argTypes, rowMapper);
+
+//		way3
+		PreparedStatementSetter pss = new PreparedStatementSetter() {
+
+			@Override
+			public void setValues(PreparedStatement ps) throws SQLException {
+				ps.setInt(1, dept_id);
+			}
+		};
+		List<Employee> list = jdbcTemplate.query(sql, pss, rowMapper);
 
 		return list;
 	}
@@ -183,9 +204,19 @@ public class EmployeeDao {
 //		jdbcTemplate.query(sql, rch, dept_id);
 
 //		way2
-		Object[] args = new Object[] { dept_id };
-		int[] argTypes = new int[] { Types.INTEGER };
-		jdbcTemplate.query(sql, args, argTypes, rch);
+//		Object[] args = new Object[] { dept_id };
+//		int[] argTypes = new int[] { Types.INTEGER };
+//		jdbcTemplate.query(sql, args, argTypes, rch);
+
+//		way3
+		PreparedStatementSetter pss = new PreparedStatementSetter() {
+
+			@Override
+			public void setValues(PreparedStatement ps) throws SQLException {
+				ps.setInt(1, dept_id);
+			}
+		};
+		jdbcTemplate.query(sql, pss, rch);
 
 		return list;
 	}
