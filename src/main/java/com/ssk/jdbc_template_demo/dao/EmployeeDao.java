@@ -2,6 +2,7 @@ package com.ssk.jdbc_template_demo.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -120,7 +121,13 @@ public class EmployeeDao {
 			}
 		};
 
-		List<Employee> list = jdbcTemplate.query(sql, rse, dept_id);
+//		way1
+//		List<Employee> list = jdbcTemplate.query(sql, rse, dept_id);
+
+//		way2
+		Object[] args = new Object[] { dept_id };
+		int[] argTypes = new int[] { Types.INTEGER };
+		List<Employee> list = jdbcTemplate.query(sql, args, argTypes, rse);
 
 		return list;
 	}
@@ -141,7 +148,13 @@ public class EmployeeDao {
 			}
 		};
 
-		List<Employee> list = jdbcTemplate.query(sql, rowMapper, dept_id);
+//		way1
+//		List<Employee> list = jdbcTemplate.query(sql, rowMapper);
+
+//		way2
+		Object[] args = new Object[] { dept_id };
+		int[] argTypes = new int[] { Types.INTEGER };
+		List<Employee> list = jdbcTemplate.query(sql, args, argTypes, rowMapper);
 
 		return list;
 	}
@@ -166,7 +179,13 @@ public class EmployeeDao {
 			}
 		};
 
-		jdbcTemplate.query(sql, rch, dept_id);
+//		way1
+//		jdbcTemplate.query(sql, rch, dept_id);
+
+//		way2
+		Object[] args = new Object[] { dept_id };
+		int[] argTypes = new int[] { Types.INTEGER };
+		jdbcTemplate.query(sql, args, argTypes, rch);
 
 		return list;
 	}
