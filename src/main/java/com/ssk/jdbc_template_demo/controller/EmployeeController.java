@@ -22,7 +22,7 @@ public class EmployeeController {
 //		List<Employee> list = employeeDao.getAllEmployeesUsingRowMapper();
 //		List<Employee> list = employeeDao.getAllEmployeesUsingRowCallbackHandler();
 		List<Employee> list = employeeDao.getAllEmployeesUsingQueryForList();
-		
+
 		return list;
 	}
 
@@ -30,22 +30,23 @@ public class EmployeeController {
 	public List<Employee> getAllEmployeesByDeptId(@PathVariable int dept_id) {
 //		List<Employee> list = employeeDao.getAllEmployeesByDeptIdUsingResultSetExtractor(dept_id);
 //		List<Employee> list = employeeDao.getAllEmployeesByDeptUsingRowMapper(dept_id);
-		List<Employee> list = employeeDao.getAllEmployeesByDeptIdUsingRowCallbackHandler(dept_id);
+//		List<Employee> list = employeeDao.getAllEmployeesByDeptIdUsingRowCallbackHandler(dept_id);
+		List<Employee> list = employeeDao.getAllEmployeesByDeptIdUsingQueryForList(dept_id);
 
 		return list;
 	}
-	
+
 	@GetMapping("/get-all-employees-id")
 	public List<Integer> getAllEmployeesId() {
 		List<Integer> list = employeeDao.getAllEmployeesIdUsingQueryForList();
-		
+
 		return list;
 	}
-	
+
 	@GetMapping("/get-all-employees-id/dept_id/{dept_id}")
 	public List<Integer> getAllEmployeesIdByDeptId(@PathVariable int dept_id) {
 		List<Integer> list = employeeDao.getAllEmployeesIdByDeptIdUsingQueryForList(dept_id);
-		
+
 		return list;
 	}
 }

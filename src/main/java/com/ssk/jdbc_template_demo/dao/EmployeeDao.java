@@ -291,16 +291,37 @@ public class EmployeeDao {
 
 		return employeesId;
 	}
-	
+
 	// using queryForList
-		public List<Integer> getAllEmployeesIdByDeptIdUsingQueryForList(int dept_id) {
-			logger.info("getAllEmployeesIdByDeptIdUsingQueryForList() called..." + dept_id);
+	public List<Integer> getAllEmployeesIdByDeptIdUsingQueryForList(int dept_id) {
+		logger.info("getAllEmployeesIdByDeptIdUsingQueryForList() called..." + dept_id);
 
-			String sql = "SELECT emp_id FROM employee WHERE dept_id = ?";
+		String sql = "SELECT emp_id FROM employee WHERE dept_id = ?";
 
-			List<Integer> employeesId = jdbcTemplate.queryForList(sql, Integer.class, dept_id);
+		List<Integer> employeesId = jdbcTemplate.queryForList(sql, Integer.class, dept_id);
 
-			return employeesId;
-		}
+		return employeesId;
+	}
+
+	// using queryForList
+	public List<Employee> getAllEmployeesByDeptIdUsingQueryForList(int dept_id) {
+		logger.info("getAllEmployeesIdByDeptIdUsingQueryForList2() called..." + dept_id);
+
+		String sql = "SELECT * FROM employee WHERE dept_id = ?";
+
+		List<Employee> list = new ArrayList<Employee>();
+		
+		List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, dept_id);
+		
+		result.forEach(m -> {
+			Employee employee = new Employee((int) m.get("emp_id"), (String) m.get("emp_fname"),
+					(String) m.get("emp_lname"), (String) m.get("role"), Integer.valueOf((String) m.get("manager")),
+					(Date) m.get("hire_date"), (int) m.get("salary"), (int) m.get("commission"),
+					(int) m.get("dept_id"));
+			list.add(employee);
+		});
+
+		return list;
+	}
 
 }
