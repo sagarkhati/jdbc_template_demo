@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -298,7 +299,13 @@ public class EmployeeDao {
 
 		String sql = "SELECT emp_id FROM employee WHERE dept_id = ?";
 
-		List<Integer> employeesId = jdbcTemplate.queryForList(sql, Integer.class, dept_id);
+//		way 1
+//		List<Integer> employeesId = jdbcTemplate.queryForList(sql, Integer.class, dept_id);
+
+//		way 2
+		Object[] args = new Object[] { dept_id };
+		int[] argTypes = new int[] { Types.INTEGER };
+		List<Integer> employeesId = jdbcTemplate.queryForList(sql, args, argTypes, Integer.class);
 
 		return employeesId;
 	}
@@ -310,9 +317,15 @@ public class EmployeeDao {
 		String sql = "SELECT * FROM employee WHERE dept_id = ?";
 
 		List<Employee> list = new ArrayList<Employee>();
-		
-		List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, dept_id);
-		
+
+		// way 1
+//		List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, dept_id);
+
+		// way 2
+		Object[] args = new Object[] { dept_id };
+		int[] argTypes = new int[] { Types.INTEGER };
+		List<Map<String, Object>> result = jdbcTemplate.queryForList(sql, args, argTypes);
+
 		result.forEach(m -> {
 			Employee employee = new Employee((int) m.get("emp_id"), (String) m.get("emp_fname"),
 					(String) m.get("emp_lname"), (String) m.get("role"), Integer.valueOf((String) m.get("manager")),
