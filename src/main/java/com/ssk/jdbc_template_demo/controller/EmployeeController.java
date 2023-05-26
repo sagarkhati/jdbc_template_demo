@@ -14,11 +14,13 @@ public class EmployeeController {
 
 	@Autowired
 	private EmployeeDao employeeDao;
-	
+
 	@GetMapping("/get-all-employees")
 	public List<Employee> getAllEmployees() {
 //		List<Employee> list = employeeDao.getAllEmployeesUsingResultSetExtractor();
-		List<Employee> list = employeeDao.getAllEmployeesUsingRowMapper();
+//		List<Employee> list = employeeDao.getAllEmployeesUsingRowMapper();
+		List<Employee> list = employeeDao.getAllEmployeesUsingRowCallbackHandler();
+
 		return list;
 	}
 
