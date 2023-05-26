@@ -1,11 +1,14 @@
 package com.ssk.jdbc_template_demo.dao;
 
+import java.io.Console;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -140,10 +143,10 @@ public class EmployeeDao {
 //			}
 //		};
 //		List<Employee> list = jdbcTemplate.query(sql, pss, rse);
-		
+
 //		way4
 		PreparedStatementCreator psc = new PreparedStatementCreator() {
-			
+
 			@Override
 			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
 				PreparedStatement ps = con.prepareStatement(sql);
@@ -189,10 +192,10 @@ public class EmployeeDao {
 //			}
 //		};
 //		List<Employee> list = jdbcTemplate.query(sql, pss, rowMapper);
-		
+
 //		way4
 		PreparedStatementCreator psc = new PreparedStatementCreator() {
-			
+
 			@Override
 			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
 				PreparedStatement ps = con.prepareStatement(sql);
@@ -242,10 +245,10 @@ public class EmployeeDao {
 //			}
 //		};
 //		jdbcTemplate.query(sql, pss, rch);
-		
+
 //		way4
 		PreparedStatementCreator psc = new PreparedStatementCreator() {
-			
+
 			@Override
 			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
 				PreparedStatement ps = con.prepareStatement(sql);
@@ -254,6 +257,27 @@ public class EmployeeDao {
 			}
 		};
 		jdbcTemplate.query(psc, rch);
+
+		return list;
+	}
+
+	// using queryForList
+	public List<Employee> getAllEmployeesUsingQueryForList() {
+		logger.info("getAllEmployees() called...");
+
+		String sql = "SELECT * FROM employee";
+
+		List<Employee> list = new ArrayList<Employee>();
+
+		List<Map<String, Object>> map = jdbcTemplate.queryForList(sql);
+
+		map.forEach(m -> {
+			Employee employee = new Employee((int) m.get("emp_id"), (String) m.get("emp_fname"),
+					(String) m.get("emp_lname"), (String) m.get("role"), Integer.valueOf((String) m.get("manager")),
+					(Date) m.get("hire_date"), (int) m.get("salary"), (int) m.get("commission"),
+					(int) m.get("dept_id"));
+			list.add(employee);
+		});
 
 		return list;
 	}

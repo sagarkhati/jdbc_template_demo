@@ -20,8 +20,9 @@ public class EmployeeController {
 	public List<Employee> getAllEmployees() {
 //		List<Employee> list = employeeDao.getAllEmployeesUsingResultSetExtractor();
 //		List<Employee> list = employeeDao.getAllEmployeesUsingRowMapper();
-		List<Employee> list = employeeDao.getAllEmployeesUsingRowCallbackHandler();
-
+//		List<Employee> list = employeeDao.getAllEmployeesUsingRowCallbackHandler();
+		List<Employee> list = employeeDao.getAllEmployeesUsingQueryForList();
+		
 		return list;
 	}
 
