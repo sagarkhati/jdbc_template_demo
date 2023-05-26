@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssk.jdbc_template_demo.dao.EmployeeDao;
@@ -24,4 +25,10 @@ public class EmployeeController {
 		return list;
 	}
 
+	@GetMapping("/get-all-employees/dept_id/{dept_id}")
+	public List<Employee> getAllEmployeesByDeptId(@PathVariable int dept_id) {
+		List<Employee> list = employeeDao.getAllEmployeesByDeptIdUsingResultSetExtractor(dept_id);
+
+		return list;
+	}
 }

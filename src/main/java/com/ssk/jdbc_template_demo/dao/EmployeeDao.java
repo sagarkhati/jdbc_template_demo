@@ -97,4 +97,31 @@ public class EmployeeDao {
 
 		return list;
 	}
+
+	// using query with Parameter and ResultSetExtractor
+	public List<Employee> getAllEmployeesByDeptIdUsingResultSetExtractor(int dept_id) {
+		logger.info("getAllEmployeesByDeptIdUsingResultSetExtractor() called...");
+
+		String sql = "SELECT * FROM employee WHERE dept_id = ?";
+
+		ResultSetExtractor<List<Employee>> rse = new ResultSetExtractor<List<Employee>>() {
+
+			@Override
+			public List<Employee> extractData(ResultSet rs) throws SQLException, DataAccessException {
+				List<Employee> employees = new ArrayList<Employee>();
+
+				while (rs.next()) {
+					Employee employee = new Employee(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
+							rs.getInt(5), rs.getDate(6), rs.getInt(7), rs.getInt(8), rs.getInt(9));
+					employees.add(employee);
+				}
+
+				return employees;
+			}
+		};
+
+		List<Employee> list = jdbcTemplate.query(sql, rse, dept_id);
+
+		return list;
+	}
 }
