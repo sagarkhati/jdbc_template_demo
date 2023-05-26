@@ -49,4 +49,14 @@ public class EmployeeController {
 
 		return list;
 	}
+
+	@GetMapping("/get-total-emp-records")
+	public Object getTotalRecords() {
+		return employeeDao.getTotalRecords();
+	}
+	
+	@GetMapping("/get-total-emp-records/dept_id/{dept_id}")
+	public Object getTotalRecordsByDeptId(@PathVariable int dept_id) {
+		return employeeDao.getTotalRecordsByDeptId(dept_id);
+	}
 }

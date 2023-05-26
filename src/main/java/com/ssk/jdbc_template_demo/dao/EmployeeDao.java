@@ -337,4 +337,28 @@ public class EmployeeDao {
 		return list;
 	}
 
+	// using queryForMap
+	public Object getTotalRecords() {
+		String sql = "SELECT count(*) as totalRecords FROM employee";
+
+		Map<String, Object> map = jdbcTemplate.queryForMap(sql);
+
+		return map.get("totalRecords");
+	}
+
+	// using queryForMap
+	public Object getTotalRecordsByDeptId(int dept_id) {
+		String sql = "SELECT count(*) as totalRecords FROM employee WHERE dept_id = ?";
+
+//		way 1
+//		Map<String, Object> map = jdbcTemplate.queryForMap(sql, dept_id);
+
+//		way 2
+		Object[] args = new Object[] { dept_id };
+		int[] argTypes = new int[] { Types.INTEGER };
+		Map<String, Object> map = jdbcTemplate.queryForMap(sql, args, argTypes);
+
+		return map.get("totalRecords");
+	}
+
 }
