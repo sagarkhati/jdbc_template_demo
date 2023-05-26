@@ -1,5 +1,6 @@
 package com.ssk.jdbc_template_demo.dao;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,7 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementSetter;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
@@ -131,14 +132,26 @@ public class EmployeeDao {
 //		List<Employee> list = jdbcTemplate.query(sql, args, argTypes, rse);
 
 //		way3
-		PreparedStatementSetter pss = new PreparedStatementSetter() {
-
+//		PreparedStatementSetter pss = new PreparedStatementSetter() {
+//
+//			@Override
+//			public void setValues(PreparedStatement ps) throws SQLException {
+//				ps.setInt(1, dept_id);
+//			}
+//		};
+//		List<Employee> list = jdbcTemplate.query(sql, pss, rse);
+		
+//		way4
+		PreparedStatementCreator psc = new PreparedStatementCreator() {
+			
 			@Override
-			public void setValues(PreparedStatement ps) throws SQLException {
+			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+				PreparedStatement ps = con.prepareStatement(sql);
 				ps.setInt(1, dept_id);
+				return ps;
 			}
 		};
-		List<Employee> list = jdbcTemplate.query(sql, pss, rse);
+		List<Employee> list = jdbcTemplate.query(psc, rse);
 
 		return list;
 	}
@@ -168,14 +181,26 @@ public class EmployeeDao {
 //		List<Employee> list = jdbcTemplate.query(sql, args, argTypes, rowMapper);
 
 //		way3
-		PreparedStatementSetter pss = new PreparedStatementSetter() {
-
+//		PreparedStatementSetter pss = new PreparedStatementSetter() {
+//
+//			@Override
+//			public void setValues(PreparedStatement ps) throws SQLException {
+//				ps.setInt(1, dept_id);
+//			}
+//		};
+//		List<Employee> list = jdbcTemplate.query(sql, pss, rowMapper);
+		
+//		way4
+		PreparedStatementCreator psc = new PreparedStatementCreator() {
+			
 			@Override
-			public void setValues(PreparedStatement ps) throws SQLException {
+			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+				PreparedStatement ps = con.prepareStatement(sql);
 				ps.setInt(1, dept_id);
+				return ps;
 			}
 		};
-		List<Employee> list = jdbcTemplate.query(sql, pss, rowMapper);
+		List<Employee> list = jdbcTemplate.query(psc, rowMapper);
 
 		return list;
 	}
@@ -209,14 +234,26 @@ public class EmployeeDao {
 //		jdbcTemplate.query(sql, args, argTypes, rch);
 
 //		way3
-		PreparedStatementSetter pss = new PreparedStatementSetter() {
-
+//		PreparedStatementSetter pss = new PreparedStatementSetter() {
+//
+//			@Override
+//			public void setValues(PreparedStatement ps) throws SQLException {
+//				ps.setInt(1, dept_id);
+//			}
+//		};
+//		jdbcTemplate.query(sql, pss, rch);
+		
+//		way4
+		PreparedStatementCreator psc = new PreparedStatementCreator() {
+			
 			@Override
-			public void setValues(PreparedStatement ps) throws SQLException {
+			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+				PreparedStatement ps = con.prepareStatement(sql);
 				ps.setInt(1, dept_id);
+				return ps;
 			}
 		};
-		jdbcTemplate.query(sql, pss, rch);
+		jdbcTemplate.query(psc, rch);
 
 		return list;
 	}
