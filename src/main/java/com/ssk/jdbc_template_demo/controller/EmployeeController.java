@@ -41,4 +41,11 @@ public class EmployeeController {
 		
 		return list;
 	}
+	
+	@GetMapping("/get-all-employees-id/dept_id/{dept_id}")
+	public List<Integer> getAllEmployeesIdByDeptId(@PathVariable int dept_id) {
+		List<Integer> list = employeeDao.getAllEmployeesIdByDeptIdUsingQueryForList(dept_id);
+		
+		return list;
+	}
 }

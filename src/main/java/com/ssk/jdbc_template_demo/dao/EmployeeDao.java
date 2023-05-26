@@ -291,5 +291,16 @@ public class EmployeeDao {
 
 		return employeesId;
 	}
+	
+	// using queryForList
+		public List<Integer> getAllEmployeesIdByDeptIdUsingQueryForList(int dept_id) {
+			logger.info("getAllEmployeesIdByDeptIdUsingQueryForList() called..." + dept_id);
+
+			String sql = "SELECT emp_id FROM employee WHERE dept_id = ?";
+
+			List<Integer> employeesId = jdbcTemplate.queryForList(sql, Integer.class, dept_id);
+
+			return employeesId;
+		}
 
 }
