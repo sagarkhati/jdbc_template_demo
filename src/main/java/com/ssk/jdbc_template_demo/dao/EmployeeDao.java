@@ -124,4 +124,25 @@ public class EmployeeDao {
 
 		return list;
 	}
+
+	// using query with Parameter and RowMapper
+	public List<Employee> getAllEmployeesByDeptUsingRowMapper(int dept_id) {
+		logger.info("getAllEmployeesByDeptUsingRowMapper() called...");
+
+		String sql = "SELECT * FROM employee WHERE dept_id = ?";
+
+		RowMapper<Employee> rowMapper = new RowMapper<Employee>() {
+
+			@Override
+			public Employee mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Employee employee = new Employee(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
+						rs.getInt(5), rs.getDate(6), rs.getInt(7), rs.getInt(8), rs.getInt(9));
+				return employee;
+			}
+		};
+
+		List<Employee> list = jdbcTemplate.query(sql, rowMapper, dept_id);
+
+		return list;
+	}
 }

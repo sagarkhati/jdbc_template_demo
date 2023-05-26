@@ -27,7 +27,8 @@ public class EmployeeController {
 
 	@GetMapping("/get-all-employees/dept_id/{dept_id}")
 	public List<Employee> getAllEmployeesByDeptId(@PathVariable int dept_id) {
-		List<Employee> list = employeeDao.getAllEmployeesByDeptIdUsingResultSetExtractor(dept_id);
+//		List<Employee> list = employeeDao.getAllEmployeesByDeptIdUsingResultSetExtractor(dept_id);
+		List<Employee> list = employeeDao.getAllEmployeesByDeptUsingRowMapper(dept_id);
 
 		return list;
 	}
