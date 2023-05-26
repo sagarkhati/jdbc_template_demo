@@ -145,4 +145,29 @@ public class EmployeeDao {
 
 		return list;
 	}
+
+	// using query with Parameter and RowCallbackHandler
+	public List<Employee> getAllEmployeesByDeptIdUsingRowCallbackHandler(int dept_id) {
+		logger.info("getAllEmployeesByDeptIdUsingRowCallbackHandler() called...");
+
+		String sql = "SELECT * FROM employee WHERE dept_id = ?";
+
+		List<Employee> list = new ArrayList<Employee>();
+
+		RowCallbackHandler rch = new RowCallbackHandler() {
+
+			@Override
+			public void processRow(ResultSet rs) throws SQLException {
+				while (rs.next()) {
+					Employee employee = new Employee(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
+							rs.getInt(5), rs.getDate(6), rs.getInt(7), rs.getInt(8), rs.getInt(9));
+					list.add(employee);
+				}
+			}
+		};
+
+		jdbcTemplate.query(sql, rch, dept_id);
+
+		return list;
+	}
 }
