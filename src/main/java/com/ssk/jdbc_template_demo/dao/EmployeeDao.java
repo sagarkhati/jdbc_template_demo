@@ -1,6 +1,5 @@
 package com.ssk.jdbc_template_demo.dao;
 
-import java.io.Console;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -281,4 +280,16 @@ public class EmployeeDao {
 
 		return list;
 	}
+
+	// using queryForList
+	public List<Integer> getAllEmployeesIdUsingQueryForList() {
+		logger.info("getAllEmployeesIdUsingQueryForList() called...");
+
+		String sql = "SELECT emp_id FROM employee";
+
+		List<Integer> employeesId = jdbcTemplate.queryForList(sql, Integer.class);
+
+		return employeesId;
+	}
+
 }
