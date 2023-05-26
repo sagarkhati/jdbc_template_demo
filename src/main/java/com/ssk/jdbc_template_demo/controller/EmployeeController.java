@@ -17,13 +17,9 @@ public class EmployeeController {
 	
 	@GetMapping("/get-all-employees")
 	public List<Employee> getAllEmployees() {
-		List<Employee> list = employeeDao.getAllEmployees();
+//		List<Employee> list = employeeDao.getAllEmployeesUsingResultSetExtractor();
+		List<Employee> list = employeeDao.getAllEmployeesUsingRowMapper();
 		return list;
 	}
-	
-	@GetMapping("/get-all-employees-rm")
-	public List<Employee> getAllEmployeesRM() {
-		List<Employee> list = employeeDao.getAllEmployeesRM();
-		return list;
-	}
+
 }
