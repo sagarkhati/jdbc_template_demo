@@ -52,11 +52,22 @@ public class EmployeeController {
 
 	@GetMapping("/get-total-emp-records")
 	public Object getTotalRecords() {
-		return employeeDao.getTotalRecords();
+//		return employeeDao.getTotalRecords();
+		return employeeDao.getTotalRecordsUsingQueryForObject();
 	}
-	
+
 	@GetMapping("/get-total-emp-records/dept_id/{dept_id}")
 	public Object getTotalRecordsByDeptId(@PathVariable int dept_id) {
 		return employeeDao.getTotalRecordsByDeptId(dept_id);
+	}
+
+	@GetMapping("/get-emp-name/emp_id/{emp_id}")
+	public String getEmployeeNameByEmpId(@PathVariable int emp_id) {
+		return employeeDao.getEmployeeNameByEmpId(emp_id);
+	}
+
+	@GetMapping("/get-emp-details/emp_id/{emp_id}")
+	public Employee getEmployeeDetails(@PathVariable int emp_id) {
+		return employeeDao.getEmployeeDetails(emp_id);
 	}
 }

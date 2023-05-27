@@ -361,4 +361,65 @@ public class EmployeeDao {
 		return map.get("totalRecords");
 	}
 
+	// using queryForObject to get single row and single col without Parameter
+	public Object getTotalRecordsUsingQueryForObject() {
+		logger.info("getTotalRecordsUsingQueryForObject() called...");
+
+		String sql = "SELECT count(*) as totalRecords FROM employee";
+
+		Integer integer = jdbcTemplate.queryForObject(sql, Integer.class);
+
+		return integer;
+	}
+
+	// using queryForObject to get single row and single col with Parameter
+	public String getEmployeeNameByEmpId(int emp_id) {
+		logger.info("getTotalRecordsUsingQueryForObject() called with emp_id: " + emp_id);
+
+		String sql = "SELECT emp_fname FROM employee where emp_id = ?";
+
+//		way 1
+//		String string = jdbcTemplate.queryForObject(sql, String.class, emp_id);
+
+//		way 2
+		String string = jdbcTemplate.queryForObject(sql, new Object[] { emp_id }, new int[] { Types.INTEGER },
+				String.class);
+
+		return string;
+	}
+
+	// using queryForObject to get single row and multi col with and without
+	// parameter
+	public Employee getEmployeeDetails(int emp_id) {
+		logger.info("getEmployeeDetails() called with emp_id: " + emp_id);
+
+//		way 1
+//		String sql = "SELECT * FROM employee where emp_id = " + emp_id;
+
+//		way 2 and 3
+		String sql = "SELECT * FROM employee where emp_id = ?";
+
+		RowMapper<Employee> rowMapper = new RowMapper<Employee>() {
+
+			@Override
+			public Employee mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Employee employee = new Employee(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
+						rs.getInt(5), rs.getDate(6), rs.getInt(7), rs.getInt(8), rs.getInt(9));
+				return employee;
+			}
+		};
+
+//		way 1
+//		Employee employee = jdbcTemplate.queryForObject(sql, rowMapper);
+
+//		way 2 
+//		Employee employee = jdbcTemplate.queryForObject(sql, rowMapper, emp_id);
+
+//		way 3
+		Employee employee = jdbcTemplate.queryForObject(sql, new Object[] { emp_id }, new int[] { Types.INTEGER },
+				rowMapper);
+
+		return employee;
+	}
+
 }
