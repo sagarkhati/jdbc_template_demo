@@ -1,5 +1,14 @@
 # jdbc_template_demo
 
+**Notes:**
+
+- query() – is used to get multiple rows results as list. (returns multi rows multi cols - with 3 diff mapper)
+- queryForList() – is used to get selected columns data of multiple rows as List. (returns multi rows multi cols - without mapper)
+- queryForMap() – is used to get selected columns data of single row as Map. (returns single row single col [OR] single row mutli col without mapper)
+- queryForObject() – is used to get single value or single row results. (returns single row single col [OR] single row multi col with RowMapper)
+
+---
+
 **Step1:** Go to [Spring Initializr](https://start.spring.io/) and create the project with following dependencies included: 
 - Spring Web
 - Spring Data JDBC
